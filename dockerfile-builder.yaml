@@ -41,10 +41,15 @@ setup:
   # Setup env 
   envvars:
     dependencies:
+      # Added to run security utilities
+      security: python py-pip 
+      # Development dependencies to compile 
       develop: 
         valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "node "'
-      setup: bash curl php python pip $SETUP_DEPENDENCIES_DEVELOP
-      config: gettext git
+      # Dependencies installed in the image
+      setup: bash curl gettext git php5 mysql-client php-mysql php-mysqli $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY
+      # Dependencies installed during runtime
+      config: ""
   # Setup Processes
   processes:
     - title: "Install dependencies"
@@ -63,19 +68,29 @@ config:
       webroot: /var/www/html  
       binaries: /usr/local/bin
     urls:
-      n98-magerun: https://files.magerun.net/n98-magerun.phar
+      magerun: https://files.magerun.net/n98-magerun.phar
     cron:
       log:
         level: 8
       
   processes:
+    - title: "Setup user and group"
+      commands:
+        - addgroup -S "$CONFIG_GROUP"
+        - adduser -S -g "$CONFIG_USER" "$CONFIG_GROUP"
+
     - title: "Setup bin folder"
       commands:
-        - mkdir -p $CONFIG_PATHS_BINARIES && chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
+        - mkdir -p $CONFIG_PATHS_BINARIES 
+        #- chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
 
     - title: "Download binaries"
       commands:
-       - curl 
+       - curl -o $CONFIG_PATHS_BINARIES/n98-magerun.phar $CONFIG_URLS_MAGERUN
+
+    - title: "Set bin executable"
+      commands:
+        - chmod +x -R $CONFIG_PATHS_BINARIES
 
 test:
   envvars:
@@ -91,22 +106,21 @@ test:
     #
     # Starting
     #
-    - title: "Starting varnish container"
+    - title: "Starting magento-cli container"
       commands:
         - TEST_CONTAINER_MAGENTO_CLI_ID=$(
             docker run 
               -d --name=$TEST_NAME
               ${TEST_DOCKERFILE_TAG_USER}/${TEST_DOCKERFILE_TAG_NAME}:${TEST_DOCKERFILE_TAG_VERSION}
           )
-        - TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
+        - TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 5 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
 
-    - title: "Testing varnish container"
+    - title: "Testing magento-cli container"
       shell_condition: '! "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true"'
       commands:
         - echo "Magento-cli container failed, print logs and exiting\n"
         - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
-        - exit 1
 
-    - title: "Success"
+    - title: "Echo success"
       commands:
         - echo "### Test Succeeded\n" 
