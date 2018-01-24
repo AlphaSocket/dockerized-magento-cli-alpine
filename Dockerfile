@@ -20,7 +20,8 @@ ENV \
 	BUILD_ENV="prd" \
 	BUILD_DOCKERFILE_IMAGE="alpine:latest" \
 	BUILD_DOCKERFILE_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
-	SETUP_DEPENDENCIES_SETUP="bash curl php python pip" \
+	SETUP_DEPENDENCIES_DEVELOP="" \
+	SETUP_DEPENDENCIES_SETUP="bash curl php python pip " \
 	SETUP_DEPENDENCIES_CONFIG="gettext git" \
 	CONFIG_USER="magento-cli" \
 	CONFIG_GROUP="magento" \
