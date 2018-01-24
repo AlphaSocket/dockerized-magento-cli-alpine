@@ -82,6 +82,10 @@ config:
         name: $BUILD_NAME
         version: $BUILD_BRANCH
 
+#
+# Test
+#
+test:
   processes:
     #
     # Starting
