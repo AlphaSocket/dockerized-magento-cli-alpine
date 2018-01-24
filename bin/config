@@ -1,0 +1,14 @@
+#!/bin/sh
+
+# exit if a command fails
+set -e
+
+# Setup bin folder
+mkdir -p $CONFIG_PATHS_BINARIES && chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
+
+# Download binaries
+curl
+
+
+
+exit 0

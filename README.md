@@ -1,6 +1,6 @@
 # Alphasocket/dockerized-magento-cli-alpine
 #### magento-cli-alpine
-[![](https://travis-ci.org/AlphaSocket/dockerized-magento-cli-alpine.svg?branch=latest )]() [![](https://images.microbadger.com/badges/image/03192859189254/dockerized-magento-cli-alpine:latest.svg)](https://microbadger.com/images/03192859189254/dockerized-magento-cli-alpine:latest ) [![](https://images.microbadger.com/badges/version/03192859189254/dockerized-magento-cli-alpine:latest.svg)](https://microbadger.com/images/03192859189254/dockerized-magento-cli-alpine:latest)
+[![](https://travis-ci.org/AlphaSocket/dockerized-magento-cli-alpine.svg?branch=latest-dev )]() [![](https://images.microbadger.com/badges/image/03192859189254/dockerized-magento-cli-alpine:latest-dev.svg)](https://microbadger.com/images/03192859189254/dockerized-magento-cli-alpine:latest-dev ) [![](https://images.microbadger.com/badges/version/03192859189254/dockerized-magento-cli-alpine:latest-dev.svg)](https://microbadger.com/images/03192859189254/dockerized-magento-cli-alpine:latest-dev)
 
 Alpine container with all dependencies to setup, develop and diagnose a magento installation
 

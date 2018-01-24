@@ -1,0 +1,30 @@
+#!/bin/env
+GENERAL_DOCKER_USER='03192859189254'
+GENERAL_KEYS_TRUE='True'
+GENERAL_KEYS_FALSE='False'
+GENERAL_KEYS_DEV='dev'
+GENERAL_KEYS_PRD='prd'
+
+
+# Build
+BUILD_NAME='magento-cli-alpine'
+BUILD_BRANCH='latest-dev'
+BUILD_VERSION='latest'
+BUILD_ENV='dev'
+BUILD_DOCKERFILE_IMAGE='alpine:latest'
+BUILD_DOCKERFILE_CMD='/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL'
+
+
+# Setup
+SETUP_DEPENDENCIES_SETUP='bash curl php python pip'
+SETUP_DEPENDENCIES_CONFIG='gettext git'
+
+
+# Config
+CONFIG_USER='magento-cli'
+CONFIG_GROUP='magento'
+CONFIG_PATHS_WEBROOT='/var/www/html'
+CONFIG_PATHS_BINARIES='/usr/local/bin'
+CONFIG_URLS_N98-MAGERUN='https://files.magerun.net/n98-magerun.phar'
+CONFIG_CRON_LOG_LEVEL='8'
+
