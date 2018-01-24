@@ -46,7 +46,7 @@ setup:
       security: python py-pip 
       # Development dependencies to compile 
       develop: 
-        valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "node "'
+        valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs npm"'
       # Dependencies installed in the image
       setup: bash curl gettext git  mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
       # Dependencies installed during runtime
