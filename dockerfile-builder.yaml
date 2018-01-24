@@ -73,6 +73,9 @@ config:
 
     - title: "Download binaries"
       commands:
+       - curl 
+
+test:
   envvars:
     name: $BUILD_NAME
     port: 30080
@@ -82,10 +85,6 @@ config:
         name: $BUILD_NAME
         version: $BUILD_BRANCH
 
-#
-# Test
-#
-test:
   processes:
     #
     # Starting
@@ -104,4 +103,8 @@ test:
       commands:
         - echo "Magento-cli container failed, print logs and exiting\n"
         - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
+        - exit 1
+
+    - title: "Success"
+      commands:
         - echo "### Test Succeeded\n" 
