@@ -20,15 +20,16 @@ ENV \
 	BUILD_ENV="dev" \
 	BUILD_DOCKERFILE_IMAGE="alpine:latest" \
 	BUILD_DOCKERFILE_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
+	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd" \
 	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
 	SETUP_DEPENDENCIES_DEVELOP="node " \
-	SETUP_DEPENDENCIES_SETUP="bash curl gettext git php5 mysql-client node  python py-pip" \
+	SETUP_DEPENDENCIES_SETUP="bash curl gettext git  mysql-client node  python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd" \
 	SETUP_DEPENDENCIES_CONFIG="" \
 	CONFIG_USER="magento-cli" \
 	CONFIG_GROUP="magento" \
 	CONFIG_PATHS_WEBROOT="/var/www/html" \
 	CONFIG_PATHS_BINARIES="/usr/local/bin" \
-	CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun.phar" \
+	CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar" \
 	CONFIG_CRON_LOG_LEVEL="8"
 
 ADD envvars /usr/local/envvars
