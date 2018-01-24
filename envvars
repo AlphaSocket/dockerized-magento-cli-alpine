@@ -16,7 +16,8 @@ BUILD_DOCKERFILE_CMD='/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL'
 
 
 # Setup
-SETUP_DEPENDENCIES_SETUP='bash curl php python pip'
+SETUP_DEPENDENCIES_DEVELOP='node '
+SETUP_DEPENDENCIES_SETUP='bash curl php python pip node '
 SETUP_DEPENDENCIES_CONFIG='gettext git'
 
 
