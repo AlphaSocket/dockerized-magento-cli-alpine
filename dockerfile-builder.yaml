@@ -41,13 +41,14 @@ setup:
   # Setup env 
   envvars:
     dependencies:
+      php: php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd
       # Added to run security utilities
       security: python py-pip 
       # Development dependencies to compile 
       develop: 
         valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "node "'
       # Dependencies installed in the image
-      setup: bash curl gettext git php5 mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY
+      setup: bash curl gettext git  mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
       # Dependencies installed during runtime
       config: ""
   # Setup Processes
@@ -57,9 +58,9 @@ setup:
       commands: 
         - "apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP"
 
-  #  - title: "Install magerun dependencies"
-  #    commands: 
-  #      - "docker-php-ext-install mysqli pdo_mysql"
+    - title: "Link php"
+      commands: 
+        - "ln -s $(which php5) /usr/bin/php"
 
 #
 # Config process run just before the entrypoint
@@ -73,7 +74,7 @@ config:
       webroot: /var/www/html  
       binaries: /usr/local/bin
     urls:
-      magerun: https://files.magerun.net/n98-magerun.phar
+      magerun: https://files.magerun.net/n98-magerun-latest.phar
     cron:
       log:
         level: 8
