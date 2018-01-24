@@ -7,6 +7,9 @@ set -e
 # Install dependencies
 apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP
 
+# Link php
+ln -s $(which php5) /usr/bin/php
+
 
 
 exit 0
