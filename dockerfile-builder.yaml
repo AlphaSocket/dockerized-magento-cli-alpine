@@ -41,7 +41,9 @@ setup:
   # Setup env 
   envvars:
     dependencies:
-      setup: bash curl php python pip
+      develop: 
+        valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "node "'
+      setup: bash curl php python pip $SETUP_DEPENDENCIES_DEVELOP
       config: gettext git
   # Setup Processes
   processes:
