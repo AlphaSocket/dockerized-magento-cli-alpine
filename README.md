@@ -17,6 +17,7 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
   + git
   + php5
   + mysql-client
+  + node
   + python
   + py-pip
 
