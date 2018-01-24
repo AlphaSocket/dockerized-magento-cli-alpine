@@ -36,16 +36,18 @@ if [ "$running_containers" ]
 fi
 
 echo "#\n# Running test\n#\n"
-# Starting varnish container
+# Starting magento-cli container
 TEST_CONTAINER_MAGENTO_CLI_ID=$( docker run -d --name=magento-cli-alpine 03192859189254/magento-cli-alpine:latest )
-TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
+TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 5 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
 
-# Testing varnish container
+# Testing magento-cli container
 if [ ! "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true" ]; then
     echo "Magento-cli container failed, print logs and exiting\n";
     docker logs $TEST_CONTAINER_MAGENTO_CLI_ID;
-    echo "### Test Succeeded\n";
 fi
+# Echo success
+echo "### Test Succeeded\n"
+
 
 
 exit 0

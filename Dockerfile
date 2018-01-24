@@ -20,14 +20,15 @@ ENV \
 	BUILD_ENV="prd" \
 	BUILD_DOCKERFILE_IMAGE="alpine:latest" \
 	BUILD_DOCKERFILE_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
+	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
 	SETUP_DEPENDENCIES_DEVELOP="" \
-	SETUP_DEPENDENCIES_SETUP="bash curl php python pip " \
-	SETUP_DEPENDENCIES_CONFIG="gettext git" \
+	SETUP_DEPENDENCIES_SETUP="bash curl gettext git php5 mysql-client php-mysql php-mysqli  python py-pip" \
+	SETUP_DEPENDENCIES_CONFIG="" \
 	CONFIG_USER="magento-cli" \
 	CONFIG_GROUP="magento" \
 	CONFIG_PATHS_WEBROOT="/var/www/html" \
 	CONFIG_PATHS_BINARIES="/usr/local/bin" \
-	CONFIG_URLS_N98-MAGERUN="https://files.magerun.net/n98-magerun.phar" \
+	CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun.phar" \
 	CONFIG_CRON_LOG_LEVEL="8"
 
 ADD envvars /usr/local/envvars
@@ -39,7 +40,7 @@ RUN chmod +rx /usr/local/bin/setup && \
     sync && \
     /usr/local/bin/setup 
 
-${DOCKERFILE_BUILDER_PORTS}
+
 
 ENTRYPOINT ["/bin/sh", "-c"]
 CMD ["/usr/local/bin/config && /usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL"]

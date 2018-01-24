@@ -3,11 +3,18 @@
 # exit if a command fails
 set -e
 
+# Setup user and group
+addgroup -S "$CONFIG_GROUP"
+adduser -S -g "$CONFIG_USER" "$CONFIG_GROUP"
+
 # Setup bin folder
-mkdir -p $CONFIG_PATHS_BINARIES && chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
+mkdir -p $CONFIG_PATHS_BINARIES
 
 # Download binaries
-curl
+curl -o $CONFIG_PATHS_BINARIES/n98-magerun.phar $CONFIG_URLS_MAGERUN
+
+# Set bin executable
+chmod +x -R $CONFIG_PATHS_BINARIES
 
 
 
