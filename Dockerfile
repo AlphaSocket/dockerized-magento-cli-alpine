@@ -22,7 +22,7 @@ ENV \
 	BUILD_DOCKERFILE_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
 	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
 	SETUP_DEPENDENCIES_DEVELOP="" \
-	SETUP_DEPENDENCIES_SETUP="bash curl gettext git php5 mysql-client php-mysql php-mysqli  python py-pip" \
+	SETUP_DEPENDENCIES_SETUP="bash curl gettext git php5 mysql-client  python py-pip" \
 	SETUP_DEPENDENCIES_CONFIG="" \
 	CONFIG_USER="magento-cli" \
 	CONFIG_GROUP="magento" \
