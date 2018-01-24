@@ -73,10 +73,6 @@ config:
 
     - title: "Download binaries"
       commands:
-       #- cp $CONFIG_PATHS_TEMPLATES_VARNISH_SERVER $CONFIG_PATHS_CONF_VARNISH_SERVER
-       - envsubst < $CONFIG_PATHS_TEMPLATES_VARNISH_SERVER > $CONFIG_PATHS_CONF_VARNISH_SERVER
-
-test:
   envvars:
     name: $BUILD_NAME
     port: 30080
@@ -92,64 +88,16 @@ test:
     #
     - title: "Starting varnish container"
       commands:
-        - TEST_CONTAINER_VARNISH_ID=$(
+        - TEST_CONTAINER_MAGENTO_CLI_ID=$(
             docker run 
               -d --name=$TEST_NAME
-              -p 127.0.0.1:${TEST_PORT}:${BUILD_DOCKERFILE_PORTS_MAIN}
-              -e CONFIG_VARNISH_BACKEND_ADDRESS=127.0.0.1
-              -e CONFIG_VARNISH_BACKEND_PORT=8080
               ${TEST_DOCKERFILE_TAG_USER}/${TEST_DOCKERFILE_TAG_NAME}:${TEST_DOCKERFILE_TAG_VERSION}
           )
-        - TEST_CONTAINER_VARNISH_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_VARNISH_ID)
+        - TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
 
     - title: "Testing varnish container"
-      shell_condition: '! "$TEST_CONTAINER_VARNISH_STATUS" = "true"'
+      shell_condition: '! "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true"'
       commands:
-        - echo "Varnish container failed, print logs and exiting\n"
-        - docker logs $TEST_CONTAINER_VARNISH_ID
-        - exit 1
-
-    # 
-    # Run nginx
-    # 
-    - title: "Starting nginx container"
-      commands: 
-        - TEST_CONTAINER_NGINX_ID=$(
-            docker run 
-              -d --net=container:$TEST_NAME 
-              03192859189254/dockerized-nginx-tester:latest
-          )
-        - TEST_CONTAINER_NGINX_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_NGINX_ID)
-
-    - title: "Testing nginx container"
-      shell_condition: '! "$TEST_CONTAINER_NGINX_STATUS" = "true"'
-      commands:
-        - echo "Httpd container failed, print logs and exiting\n"
-        - docker logs $TEST_CONTAINER_NGINX_ID
-        - exit 1
-
-    #
-    # TESTING
-    #
-    - title: "Testing varnish service"
-      commands:
-        - HTTP_CODE=$( sleep 1 && curl -sLI 127.0.0.1:${TEST_PORT}/index.html -o /dev/null -w '%{http_code}\n' )
-        - HTTP_HEADERS=$( sleep 1 && curl -sLI 127.0.0.1:${TEST_PORT}/index.html )
-
-    - title: "Checking exit code"
-      shell_condition: '! "$HTTP_CODE" = "200"'
-      commands:
-        - echo "### Test failed, received HTTP code ${HTTP_CODE} printing log\n" 
-        - docker logs $TEST_CONTAINER_VARNISH_ID
-        - exit 1
-
-    - title: "Checking varnish headers"
-      shell_condition: -z "$FILTERED_MATCH"
-      commands:
-        - echo "### Test failed, varnish headers not found during HTTP request. Printing log\n" 
-        - docker logs $TEST_CONTAINER_VARNISH_ID
-        - exit 1
-
-    - title: "Success"
-      commands:
-        - echo "### Test Succeeded, received HTTP code ${HTTP_CODE} printing log\n" 
+        - echo "Magento-cli container failed, print logs and exiting\n"
+        - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
+        - echo "### Test Succeeded\n" 
