@@ -13,12 +13,14 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
 - Setup dependencies:
   + bash
   + curl
-  + php
-  + python
-  + pip
-- Config dependencies:
   + gettext
   + git
+  + php5
+  + mysql-client
+  + php-mysql
+  + php-mysqli
+  + python
+  + py-pip
 
 
 ## Configurable envvars
@@ -27,7 +29,7 @@ CONFIG_USER='magento-cli'
 CONFIG_GROUP='magento'
 CONFIG_PATHS_WEBROOT='/var/www/html'
 CONFIG_PATHS_BINARIES='/usr/local/bin'
-CONFIG_URLS_N98-MAGERUN='https://files.magerun.net/n98-magerun.phar'
+CONFIG_URLS_MAGERUN='https://files.magerun.net/n98-magerun.phar'
 CONFIG_CRON_LOG_LEVEL='8'
 ~~~
 
