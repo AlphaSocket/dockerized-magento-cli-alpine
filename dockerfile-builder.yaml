@@ -1,0 +1,155 @@
+project: 
+  title: &project_title Alphasocket/dockerized-magento-cli-alpine
+  codename: &project_codename magento-cli-alpine
+  description: Alpine container with all dependencies to setup, develop and diagnose a magento installation
+
+#
+# Init builder
+#
+general:
+  envvars:
+    docker:
+      user: &general_docker_user 03192859189254 
+    keys:
+      True: "True"
+      false: "False"
+      dev: "dev"
+      prd: "prd"
+    
+#
+# Build process
+# Creates dockerfile and file used in it
+#
+build:
+  envvars:
+    name: *project_codename
+    branch:
+      valueFromCommand: 'git rev-parse --abbrev-ref HEAD'
+    version:
+      valueFromCommand: 'echo $BUILD_BRANCH | cut -d \- -f 1'
+    env:
+      valueFromCommand: 'env=$(echo $BUILD_BRANCH | cut -d \- -f 2); [ "$env" = "$BUILD_VERSION" ] && echo $GENERAL_KEYS_PRD || echo $env'
+    # Docker
+    dockerfile:
+      image: alpine:latest
+      cmd: /usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL
+
+#
+# Setup process injected in dockerfile
+#
+setup:
+  # Setup env 
+  envvars:
+    dependencies:
+      setup: bash curl php python pip
+      config: gettext git
+  # Setup Processes
+  processes:
+    - title: "Install dependencies"
+      commands: 
+        - "apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP"
+
+#
+# Config process run just before the entrypoint
+#
+config:
+  # Config env 
+  envvars:
+    user: magento-cli
+    group: magento
+    paths: 
+      webroot: /var/www/html  
+      binaries: /usr/local/bin
+    urls:
+      n98-magerun: https://files.magerun.net/n98-magerun.phar
+    cron:
+      log:
+        level: 8
+      
+  processes:
+    - title: "Setup bin folder"
+      commands:
+        - mkdir -p $CONFIG_PATHS_BINARIES && chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
+
+    - title: "Download binaries"
+      commands:
+       #- cp $CONFIG_PATHS_TEMPLATES_VARNISH_SERVER $CONFIG_PATHS_CONF_VARNISH_SERVER
+       - envsubst < $CONFIG_PATHS_TEMPLATES_VARNISH_SERVER > $CONFIG_PATHS_CONF_VARNISH_SERVER
+
+test:
+  envvars:
+    name: $BUILD_NAME
+    port: 30080
+    dockerfile:
+      tag: 
+        user: *general_docker_user
+        name: $BUILD_NAME
+        version: $BUILD_BRANCH
+
+  processes:
+    #
+    # Starting
+    #
+    - title: "Starting varnish container"
+      commands:
+        - TEST_CONTAINER_VARNISH_ID=$(
+            docker run 
+              -d --name=$TEST_NAME
+              -p 127.0.0.1:${TEST_PORT}:${BUILD_DOCKERFILE_PORTS_MAIN}
+              -e CONFIG_VARNISH_BACKEND_ADDRESS=127.0.0.1
+              -e CONFIG_VARNISH_BACKEND_PORT=8080
+              ${TEST_DOCKERFILE_TAG_USER}/${TEST_DOCKERFILE_TAG_NAME}:${TEST_DOCKERFILE_TAG_VERSION}
+          )
+        - TEST_CONTAINER_VARNISH_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_VARNISH_ID)
+
+    - title: "Testing varnish container"
+      shell_condition: '! "$TEST_CONTAINER_VARNISH_STATUS" = "true"'
+      commands:
+        - echo "Varnish container failed, print logs and exiting\n"
+        - docker logs $TEST_CONTAINER_VARNISH_ID
+        - exit 1
+
+    # 
+    # Run nginx
+    # 
+    - title: "Starting nginx container"
+      commands: 
+        - TEST_CONTAINER_NGINX_ID=$(
+            docker run 
+              -d --net=container:$TEST_NAME 
+              03192859189254/dockerized-nginx-tester:latest
+          )
+        - TEST_CONTAINER_NGINX_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_NGINX_ID)
+
+    - title: "Testing nginx container"
+      shell_condition: '! "$TEST_CONTAINER_NGINX_STATUS" = "true"'
+      commands:
+        - echo "Httpd container failed, print logs and exiting\n"
+        - docker logs $TEST_CONTAINER_NGINX_ID
+        - exit 1
+
+    #
+    # TESTING
+    #
+    - title: "Testing varnish service"
+      commands:
+        - HTTP_CODE=$( sleep 1 && curl -sLI 127.0.0.1:${TEST_PORT}/index.html -o /dev/null -w '%{http_code}\n' )
+        - HTTP_HEADERS=$( sleep 1 && curl -sLI 127.0.0.1:${TEST_PORT}/index.html )
+
+    - title: "Checking exit code"
+      shell_condition: '! "$HTTP_CODE" = "200"'
+      commands:
+        - echo "### Test failed, received HTTP code ${HTTP_CODE} printing log\n" 
+        - docker logs $TEST_CONTAINER_VARNISH_ID
+        - exit 1
+
+    - title: "Checking varnish headers"
+      shell_condition: -z "$FILTERED_MATCH"
+      commands:
+        - echo "### Test failed, varnish headers not found during HTTP request. Printing log\n" 
+        - docker logs $TEST_CONTAINER_VARNISH_ID
+        - exit 1
+
+    - title: "Success"
+      commands:
+        - echo "### Test Succeeded, received HTTP code ${HTTP_CODE} printing log\n" 
