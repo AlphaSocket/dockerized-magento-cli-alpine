@@ -1,0 +1,110 @@
+project: 
+  title: &project_title Alphasocket/dockerized-magento-cli-alpine
+  codename: &project_codename magento-cli-alpine
+  description: Alpine container with all dependencies to setup, develop and diagnose a magento installation
+
+#
+# Init builder
+#
+general:
+  envvars:
+    docker:
+      user: &general_docker_user 03192859189254 
+    keys:
+      True: "True"
+      false: "False"
+      dev: "dev"
+      prd: "prd"
+    
+#
+# Build process
+# Creates dockerfile and file used in it
+#
+build:
+  envvars:
+    name: *project_codename
+    branch:
+      valueFromCommand: 'git rev-parse --abbrev-ref HEAD'
+    version:
+      valueFromCommand: 'echo $BUILD_BRANCH | cut -d \- -f 1'
+    env:
+      valueFromCommand: 'env=$(echo $BUILD_BRANCH | cut -d \- -f 2); [ "$env" = "$BUILD_VERSION" ] && echo $GENERAL_KEYS_PRD || echo $env'
+    # Docker
+    dockerfile:
+      image: alpine:latest
+      cmd: /usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL
+
+#
+# Setup process injected in dockerfile
+#
+setup:
+  # Setup env 
+  envvars:
+    dependencies:
+      setup: bash curl php python pip
+      config: gettext git
+  # Setup Processes
+  processes:
+    - title: "Install dependencies"
+      commands: 
+        - "apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP"
+
+#
+# Config process run just before the entrypoint
+#
+config:
+  # Config env 
+  envvars:
+    user: magento-cli
+    group: magento
+    paths: 
+      webroot: /var/www/html  
+      binaries: /usr/local/bin
+    urls:
+      n98-magerun: https://files.magerun.net/n98-magerun.phar
+    cron:
+      log:
+        level: 8
+      
+  processes:
+    - title: "Setup bin folder"
+      commands:
+        - mkdir -p $CONFIG_PATHS_BINARIES && chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
+
+    - title: "Download binaries"
+      commands:
+       - curl 
+
+test:
+  envvars:
+    name: $BUILD_NAME
+    port: 30080
+    dockerfile:
+      tag: 
+        user: *general_docker_user
+        name: $BUILD_NAME
+        version: $BUILD_BRANCH
+
+  processes:
+    #
+    # Starting
+    #
+    - title: "Starting varnish container"
+      commands:
+        - TEST_CONTAINER_MAGENTO_CLI_ID=$(
+            docker run 
+              -d --name=$TEST_NAME
+              ${TEST_DOCKERFILE_TAG_USER}/${TEST_DOCKERFILE_TAG_NAME}:${TEST_DOCKERFILE_TAG_VERSION}
+          )
+        - TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 1 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
+
+    - title: "Testing varnish container"
+      shell_condition: '! "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true"'
+      commands:
+        - echo "Magento-cli container failed, print logs and exiting\n"
+        - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
+        - exit 1
+
+    - title: "Success"
+      commands:
+        - echo "### Test Succeeded\n" 
