@@ -28,6 +28,8 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
   + php5-json
   + php5-zlib
   + php5-gd
+  + php5-ctype
+  + php5-gd
 
 
 ## Configurable envvars
