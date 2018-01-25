@@ -20,10 +20,10 @@ ENV \
 	BUILD_ENV="prd" \
 	BUILD_DOCKERFILE_IMAGE="alpine:latest" \
 	BUILD_DOCKERFILE_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
-	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd" \
+	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl" \
 	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
 	SETUP_DEPENDENCIES_DEVELOP="" \
-	SETUP_DEPENDENCIES_SETUP="bash curl gettext git  mysql-client  python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd" \
+	SETUP_DEPENDENCIES_SETUP="bash curl gettext git  mysql-client  python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl" \
 	SETUP_DEPENDENCIES_CONFIG="" \
 	CONFIG_USER="magento-cli" \
 	CONFIG_GROUP="magento" \
