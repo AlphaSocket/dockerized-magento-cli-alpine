@@ -32,6 +32,8 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
   + php5-dom
   + php5-mcrypt
   + php5-curl
+  + php5-openssl
+  + php5-opcache
 
 
 ## Configurable envvars
