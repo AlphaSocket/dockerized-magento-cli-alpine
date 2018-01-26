@@ -83,7 +83,7 @@ config:
     - title: "Setup user and group"
       commands:
         - addgroup -S "$CONFIG_GROUP"
-        - adduser -S -g "$CONFIG_USER" "$CONFIG_GROUP"
+        - adduser -S "$CONFIG_USER" "$CONFIG_GROUP"
 
     - title: "Setup bin folder"
       commands:
@@ -126,7 +126,6 @@ test:
       commands:
         - echo "Magento-cli container failed, print logs and exiting\n"
         - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
-
     - title: "Echo success"
       commands:
         - echo "### Test Succeeded\n" 
