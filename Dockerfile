@@ -32,19 +32,27 @@ ENV \
 	CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar" \
 	CONFIG_CRON_LOG_LEVEL="8"
 
-ADD envvars /usr/local/envvars
-ADD bin/setup /usr/local/bin/setup
-ADD bin/config /usr/local/bin/config
+RUN if [ ! -d "/usr/local/bin/setup" ]; then \
+        mkdir -p /usr/local/bin/setup; \
+    fi \
+    && \
+    if [ ! -d "/usr/local/bin/config" ]; then \
+        mkdir -p /usr/local/bin/config; \
+    fi
 
-RUN chmod +rx /usr/local/bin/setup && \
-    chmod +rx /usr/local/bin/config && \
+ADD bin/docker-config /usr/local/bin/docker-config
+ADD bin/setup /usr/local/bin/setup/1516964379
+ADD bin/config /usr/local/bin/config/1516964379
+
+RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup 
+    /usr/local/bin/setup/1516964379 
+
 
 
 
 ENTRYPOINT ["/bin/sh", "-c"]
-CMD ["/usr/local/bin/config && /usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL"]
+CMD ["/usr/local/bin/docker-config && /usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL"]
 
 LABEL \
     org.label-schema.vcs-ref=$BUILD_COMMIT \
