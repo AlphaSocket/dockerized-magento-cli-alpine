@@ -41,7 +41,7 @@ setup:
   # Setup env 
   envvars:
     dependencies:
-      php: php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl
+      php: php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl
       # Added to run security utilities
       security: python py-pip 
       # Development dependencies to compile 
