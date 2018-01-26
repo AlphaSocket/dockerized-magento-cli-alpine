@@ -5,7 +5,7 @@ set -e
 
 # Setup user and group
 addgroup -S "$CONFIG_GROUP"
-adduser -S -g "$CONFIG_USER" "$CONFIG_GROUP"
+adduser -S "$CONFIG_USER" "$CONFIG_GROUP"
 
 # Setup bin folder
 mkdir -p $CONFIG_PATHS_BINARIES
