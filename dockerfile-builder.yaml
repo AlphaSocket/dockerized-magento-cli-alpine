@@ -53,7 +53,6 @@ setup:
       config: ""
   # Setup Processes
   processes:
-    
     - title: "Install dependencies"
       commands: 
         - "apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP"
@@ -70,7 +69,7 @@ config:
   envvars:
     user: magento-cli
     group: magento
-    paths: 
+    paths:
       webroot: /var/www/html  
       binaries: /usr/local/bin
     urls:
@@ -97,7 +96,7 @@ config:
     - title: "Set bin executable"
       commands:
         - chmod +x -R $CONFIG_PATHS_BINARIES
-
+        
 test:
   envvars:
     name: $BUILD_NAME
@@ -126,6 +125,8 @@ test:
       commands:
         - echo "Magento-cli container failed, print logs and exiting\n"
         - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
+
     - title: "Echo success"
+      shell_condition: '"$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true"'
       commands:
         - echo "### Test Succeeded\n" 
