@@ -4,11 +4,9 @@
 FROM alpine:latest
 
 ARG BUILD_COMMIT
-ARG BUILD_TIME
+ARG BUILD_DATE
 
 ENV \
-	BUILD_COMMIT=$BUILD_COMMIT \
-	BUILD_DATE=$BUILD_DATE \
 	GENERAL_DOCKER_USER="03192859189254" \
 	GENERAL_KEYS_TRUE="True" \
 	GENERAL_KEYS_FALSE="False" \
@@ -41,12 +39,12 @@ RUN if [ ! -d "/usr/local/bin/setup" ]; then \
     fi
 
 ADD bin/docker-config /usr/local/bin/docker-config
-ADD bin/setup /usr/local/bin/setup/1516969548
-ADD bin/config /usr/local/bin/config/1516969548
+ADD bin/setup /usr/local/bin/setup/1517139093
+ADD bin/config /usr/local/bin/config/1517139093
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1516969548 
+    /usr/local/bin/setup/1517139093 
 
 
 
