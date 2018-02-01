@@ -28,6 +28,8 @@ ENV \
 	CONFIG_PATHS_WEBROOT="/var/www/html" \
 	CONFIG_PATHS_BINARIES="/usr/local/bin" \
 	CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar" \
+	CONFIG_URLS_COMPOSER="https://getcomposer.org/composer.phar" \
+	CONFIG_URLS_WPCLI="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
 	CONFIG_CRON_LOG_LEVEL="8"
 
 RUN if [ ! -d "/usr/local/bin/setup" ]; then \
@@ -39,12 +41,12 @@ RUN if [ ! -d "/usr/local/bin/setup" ]; then \
     fi
 
 ADD bin/docker-config /usr/local/bin/docker-config
-ADD bin/setup /usr/local/bin/setup/1517140531
-ADD bin/config /usr/local/bin/config/1517140531
+ADD bin/setup /usr/local/bin/setup/1517449870
+ADD bin/config /usr/local/bin/config/1517449870
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1517140531 
+    /usr/local/bin/setup/1517449870 
 
 
 
