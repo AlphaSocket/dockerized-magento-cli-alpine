@@ -74,6 +74,8 @@ config:
       binaries: /usr/local/bin
     urls:
       magerun: https://files.magerun.net/n98-magerun-latest.phar
+      composer: https://getcomposer.org/composer.phar
+      wpcli: https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
     cron:
       log:
         level: 8
@@ -92,6 +94,8 @@ config:
     - title: "Download binaries"
       commands:
        - curl -o $CONFIG_PATHS_BINARIES/n98-magerun.phar $CONFIG_URLS_MAGERUN
+       - curl -o $CONFIG_PATHS_BINARIES/composer.phar $CONFIG_URLS_COMPOSER
+       - curl -o $CONFIG_PATHS_BINARIES/wp-cli.phar $CONFIG_URLS_WPCLI
 
     - title: "Set bin executable"
       commands:
