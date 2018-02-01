@@ -45,6 +45,8 @@ CONFIG_GROUP="magento"
 CONFIG_PATHS_WEBROOT="/var/www/html"
 CONFIG_PATHS_BINARIES="/usr/local/bin"
 CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar"
+CONFIG_URLS_COMPOSER="https://getcomposer.org/composer.phar"
+CONFIG_URLS_WPCLI="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar"
 CONFIG_CRON_LOG_LEVEL="8"
 ~~~
 

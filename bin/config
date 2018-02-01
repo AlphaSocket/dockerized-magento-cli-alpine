@@ -12,6 +12,8 @@ mkdir -p $CONFIG_PATHS_BINARIES
 
 # Download binaries
 curl -o $CONFIG_PATHS_BINARIES/n98-magerun.phar $CONFIG_URLS_MAGERUN
+curl -o $CONFIG_PATHS_BINARIES/composer.phar $CONFIG_URLS_COMPOSER
+curl -o $CONFIG_PATHS_BINARIES/wp-cli.phar $CONFIG_URLS_WPCLI
 
 # Set bin executable
 chmod +x -R $CONFIG_PATHS_BINARIES
