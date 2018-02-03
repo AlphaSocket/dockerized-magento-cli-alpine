@@ -10,13 +10,13 @@ adduser -S "$CONFIG_USER" "$CONFIG_GROUP"
 # Setup bin folder
 mkdir -p $CONFIG_PATHS_BINARIES
 
-# Download binaries
-curl -o $CONFIG_PATHS_BINARIES/n98-magerun.phar $CONFIG_URLS_MAGERUN
-curl -o $CONFIG_PATHS_BINARIES/composer.phar $CONFIG_URLS_COMPOSER
-curl -o $CONFIG_PATHS_BINARIES/wp-cli.phar $CONFIG_URLS_WPCLI
-
 # Set bin executable
 chmod +x -R $CONFIG_PATHS_BINARIES
+
+# Setup crontab to update binaries
+echo "#!/bin/sh\n$(which n98-magerun.phar) self-update" > /etc/periodic/daily/update-n98-magerun
+echo "#!/bin/sh\n$(which composer.phar) self-update" > /etc/periodic/daily/update-composer
+echo "#!/bin/sh\n$(which wp-cli.phar) self-update" > /etc/periodic/daily/update-wp-cli
 
 
 

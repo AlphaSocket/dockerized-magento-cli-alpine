@@ -21,15 +21,16 @@ ENV \
 	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
 	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
 	SETUP_DEPENDENCIES_DEVELOP="nodejs nodejs-npm" \
-	SETUP_DEPENDENCIES_SETUP="bash curl gettext git  mysql-client nodejs nodejs-npm python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
+	SETUP_DEPENDENCIES_SETUP="bash htop curl gettext git  mysql-client nodejs nodejs-npm python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
 	SETUP_DEPENDENCIES_CONFIG="" \
+	SETUP_PATHS_BINARIES="/usr/local/bin" \
+	SETUP_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar" \
+	SETUP_URLS_COMPOSER="https://getcomposer.org/composer.phar" \
+	SETUP_URLS_WPCLI="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
 	CONFIG_USER="magento-cli" \
 	CONFIG_GROUP="magento" \
 	CONFIG_PATHS_WEBROOT="/var/www/html" \
 	CONFIG_PATHS_BINARIES="/usr/local/bin" \
-	CONFIG_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar" \
-	CONFIG_URLS_COMPOSER="https://getcomposer.org/composer.phar" \
-	CONFIG_URLS_WPCLI="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
 	CONFIG_CRON_LOG_LEVEL="8"
 
 RUN if [ ! -d "/usr/local/bin/setup" ]; then \
@@ -41,12 +42,13 @@ RUN if [ ! -d "/usr/local/bin/setup" ]; then \
     fi
 
 ADD bin/docker-config /usr/local/bin/docker-config
-ADD bin/setup /usr/local/bin/setup/1517449872
-ADD bin/config /usr/local/bin/config/1517449872
+ADD bin/setup /usr/local/bin/setup/1517701929
+ADD bin/config /usr/local/bin/config/1517701929
+
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1517449872 
+    /usr/local/bin/setup/1517701929 1>/dev/stdout 2>/dev/stderr
 
 
 
