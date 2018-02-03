@@ -42,13 +42,13 @@ RUN if [ ! -d "/usr/local/bin/setup" ]; then \
     fi
 
 ADD bin/docker-config /usr/local/bin/docker-config
-ADD bin/setup /usr/local/bin/setup/1517701891
-ADD bin/config /usr/local/bin/config/1517701891
+ADD bin/setup /usr/local/bin/setup/1517701927
+ADD bin/config /usr/local/bin/config/1517701927
 
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1517701891 1>/dev/stdout 2>/dev/stderr
+    /usr/local/bin/setup/1517701927 1>/dev/stdout 2>/dev/stderr
 
 
 
