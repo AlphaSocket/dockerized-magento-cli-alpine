@@ -42,6 +42,11 @@ setup:
       modman: https://raw.githubusercontent.com/colinmollenhour/modman/master/modman
   # Setup Processes
   processes:
+    - title: "Install dependencies"
+      shell_condition: '! -z "$SETUP_DEPENDENCIES_CONFIG$SETUP_DEPENDENCIES_SETUP"'
+      commands:
+        - "apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP"
+    
     - title: "Link php"
       commands:
         - ln -s $(which php5) /usr/bin/php
