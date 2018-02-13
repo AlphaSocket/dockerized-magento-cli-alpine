@@ -25,7 +25,7 @@ ENV \
 	BUILD_VERSION="latest" \
 	BUILD_ENV="prd" \
 	BUILD_FROM="alpine:latest" \
-	BUILD_PORTS_MAIN="80" \
+	BUILD_PORTS_MAIN="" \
 	BUILD_PORTS_ADDITIONAL="" \
 	BUILD_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
 	SETUP_DEPENDENCIES_SETUP_VALUESFROMPARSE="bash htop curl gettext git mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP" \
@@ -55,15 +55,15 @@ RUN if [ ! -d "/usr/local/bin/setup" ]; then \
 
 ADD imports/bin/docker-config /usr/local/bin/docker-config
 ADD imports/bin/docker-run /usr/local/bin/docker-run
-ADD imports/bin/setup /usr/local/bin/setup/1518484660
-ADD imports/bin/config /usr/local/bin/config/1518484660
+ADD imports/bin/setup /usr/local/bin/setup/1518484720
+ADD imports/bin/config /usr/local/bin/config/1518484720
 
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1518484660 1>/dev/stdout 2>/dev/stderr
+    /usr/local/bin/setup/1518484720 1>/dev/stdout 2>/dev/stderr
 
-EXPOSE 80 
+EXPOSE  
 
 
 ENTRYPOINT ["/bin/sh", "-c"]
