@@ -21,16 +21,6 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
   + gettext
   + git
   + mysql-client
-  + OrderedDict([('valueFromCommand',
-  + '[
-  + "$BUILD_ENV"
-  + =
-  + "$GENERAL_KEYS_DEV"
-  + ]
-  + &&
-  + echo
-  + "nodejs
-  + nodejs-npm"')])
   + python
   + py-pip
   + php5
