@@ -55,15 +55,15 @@ RUN if [ ! -d "/usr/local/bin/setup" ]; then \
 
 ADD imports/bin/docker-config /usr/local/bin/docker-config
 ADD imports/bin/docker-run /usr/local/bin/docker-run
-ADD imports/bin/setup /usr/local/bin/setup/1518484722
-ADD imports/bin/config /usr/local/bin/config/1518484722
+ADD imports/bin/setup /usr/local/bin/setup/1518484838
+ADD imports/bin/config /usr/local/bin/config/1518484838
 
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1518484722 1>/dev/stdout 2>/dev/stderr
+    /usr/local/bin/setup/1518484838 1>/dev/stdout 2>/dev/stderr
 
-EXPOSE  
+
 
 
 ENTRYPOINT ["/bin/sh", "-c"]
