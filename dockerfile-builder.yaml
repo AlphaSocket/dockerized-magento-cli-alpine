@@ -29,7 +29,7 @@ setup:
         valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs nodejs-npm"'
       # Dependencies installed in the image
       setup:
-        valuesFromParse: bash htop curl gettext git mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
+        valueFromParse: bash htop curl gettext git mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
       # Dependencies needed during runtime
       config: ""
     paths:
