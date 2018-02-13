@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #
-# Local test script to build and test docker image
+# Local test script to test docker images
 #
 
 # exit if a command fails
@@ -20,34 +20,25 @@ if [ DOCKER = '' ]; then
     exit 1
 fi
 
-echo "#\n# Building image\n#\n"
-docker build \
-    --no-cache \
-    -t 03192859189254/magento-cli-alpine:latest-dev \
-    --build-arg BUILD_COMMIT=`git rev-parse --short HEAD` \
-    --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
-    .
-
 echo "#\n# Cleaning docker\n#\n"
 running_containers=$(docker ps -aq)
 if [ "$running_containers" ] 
     then
         docker stop $running_containers -t 0 && docker system prune -f
 fi
+echo "# Cleaned"
 
 echo "#\n# Running test\n#\n"
 # Starting magento-cli container
+echo "### Starting magento-cli container..."
 TEST_CONTAINER_MAGENTO_CLI_ID=$( docker run -d --name=magento-cli-alpine 03192859189254/magento-cli-alpine:latest-dev )
 TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 5 && docker inspect -f '{{.State.Running}}' $TEST_CONTAINER_MAGENTO_CLI_ID)
 
 # Testing magento-cli container
-if [ ! "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true" ]; then
-    echo "Magento-cli container failed, print logs and exiting\n";
-    docker logs $TEST_CONTAINER_MAGENTO_CLI_ID;
-fi
-# Echo success
+echo "### Testing magento-cli container..."
 if [ "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true" ]; then
     echo "### Test Succeeded\n";
+docker logs $TEST_CONTAINER_MAGENTO_CLI_ID;
 fi
 
 
