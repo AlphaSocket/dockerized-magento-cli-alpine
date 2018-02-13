@@ -14,6 +14,41 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
 
 
 ## Packages installed
+- Setup dependencies:
+  + bash
+  + htop
+  + curl
+  + gettext
+  + git
+  + mysql-client
+  + OrderedDict([('valueFromCommand',
+  + '[
+  + "$BUILD_ENV"
+  + =
+  + "$GENERAL_KEYS_DEV"
+  + ]
+  + &&
+  + echo
+  + "nodejs
+  + nodejs-npm"')])
+  + python
+  + py-pip
+  + php5
+  + php5-phar
+  + php5-soap
+  + php5-iconv
+  + php5-xml
+  + php5-json
+  + php5-zlib
+  + php5-gd
+  + php5-ctype
+  + php5-gd
+  + php5-pdo_mysql
+  + php5-dom
+  + php5-mcrypt
+  + php5-curl
+  + php5-openssl
+  + php5-opcache
 
 
 ## Configurable envvars
