@@ -4,19 +4,21 @@
 # exit if a command fails
 set -e
 
-# Install dependencies
-apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP
-
 # Link php
+echo "### Link php..."
 ln -s $(which php5) /usr/bin/php
 
 # Setup bin folder
+echo "### Setup bin folder..."
 mkdir -p $SETUP_PATHS_BINARIES
 
 # Download binaries
+echo "### Download binaries..."
 curl -o $SETUP_PATHS_BINARIES/n98-magerun.phar $SETUP_URLS_MAGERUN
 curl -o $SETUP_PATHS_BINARIES/composer.phar $SETUP_URLS_COMPOSER
 curl -o $SETUP_PATHS_BINARIES/wp-cli.phar $SETUP_URLS_WPCLI
+curl -o $SETUP_PATHS_BINARIES/mageconfigsync.phar $SETUP_URLS_MAGECONFIGSYNC
+curl -o $SETUP_PATHS_BINARIES/modman $SETUP_URLS_MODMAN
 chmod -R +x $SETUP_PATHS_BINARIES
 
 

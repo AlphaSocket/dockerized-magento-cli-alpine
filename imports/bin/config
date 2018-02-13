@@ -4,16 +4,20 @@
 set -e
 
 # Setup user and group
+echo "### Setup user and group..."
 addgroup -S "$CONFIG_GROUP"
 adduser -S "$CONFIG_USER" "$CONFIG_GROUP"
 
 # Setup bin folder
+echo "### Setup bin folder..."
 mkdir -p $CONFIG_PATHS_BINARIES
 
 # Set bin executable
+echo "### Set bin executable..."
 chmod +x -R $CONFIG_PATHS_BINARIES
 
 # Setup crontab to update binaries
+echo "### Setup crontab to update binaries..."
 echo "#!/bin/sh\n$(which n98-magerun.phar) self-update" > /etc/periodic/daily/update-n98-magerun
 echo "#!/bin/sh\n$(which composer.phar) self-update" > /etc/periodic/daily/update-composer
 echo "#!/bin/sh\n$(which wp-cli.phar) self-update" > /etc/periodic/daily/update-wp-cli
