@@ -1,8 +1,8 @@
-project: 
+project:
   title: &project_title Alphasocket/dockerized-magento-cli-alpine
   codename: &project_codename magento-cli-alpine
   description: Alpine container with all dependencies to setup, develop and diagnose a magento installation
-    
+
 #
 # Build process
 # Creates dockerfile and file used in it
@@ -18,15 +18,15 @@ build:
 # Setup process injected in dockerfile
 #
 setup:
-  # Setup env 
+  # Setup env
   envvars:
     dependencies:
       php: php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache
       # Added to run security utilities
-      security: python py-pip 
-      # Development dependencies to compile 
-      develop: 
-        valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs nodejs-npm"'
+      security: python py-pip
+      # Development dependencies to compile
+      develop:
+        #valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs nodejs-npm" || echo ""'
       # Dependencies installed in the image
       setup:
         valueFromParse: bash htop curl gettext git mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
@@ -43,14 +43,14 @@ setup:
   # Setup Processes
   processes:
     - title: "Link php"
-      commands: 
+      commands:
         - ln -s $(which php5) /usr/bin/php
-        
+
     - title: "Setup bin folder"
       commands:
-        - mkdir -p $SETUP_PATHS_BINARIES 
+        - mkdir -p $SETUP_PATHS_BINARIES
         #- chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
-        
+
     - title: "Download binaries"
       commands:
        - curl -o $SETUP_PATHS_BINARIES/n98-magerun.phar $SETUP_URLS_MAGERUN
@@ -64,18 +64,18 @@ setup:
 # Config process run just before the entrypoint
 #
 config:
-  # Config env 
+  # Config env
   envvars:
     user: magento-cli
     group: magento
     paths:
-      webroot: /var/www/html  
+      webroot: /var/www/html
       binaries:
         valueFromParse: $SETUP_PATHS_BINARIES
     cron:
       log:
         level: 8
-      
+
   processes:
     - title: "Setup user and group"
       commands:
@@ -84,19 +84,19 @@ config:
 
     - title: "Setup bin folder"
       commands:
-        - mkdir -p $CONFIG_PATHS_BINARIES 
+        - mkdir -p $CONFIG_PATHS_BINARIES
         #- chown $CONFIG_USER:$CONFIG_GROUP $CONFIG_PATHS_BINARIES
-        
+
     - title: "Set bin executable"
       commands:
         - chmod +x -R $CONFIG_PATHS_BINARIES
-        
+
     - title: "Setup crontab to update binaries"
       commands:
         - echo "#!/bin/sh\n$(which n98-magerun.phar) self-update" > /etc/periodic/daily/update-n98-magerun
         - echo "#!/bin/sh\n$(which composer.phar) self-update" > /etc/periodic/daily/update-composer
         - echo "#!/bin/sh\n$(which wp-cli.phar) self-update" > /etc/periodic/daily/update-wp-cli
-        
+
 test:
   processes:
     #
@@ -105,7 +105,7 @@ test:
     - title: "Starting magento-cli container"
       commands:
         - TEST_CONTAINER_MAGENTO_CLI_ID=$(
-            docker run 
+            docker run
               -d --name=$TEST_CONTAINER_NAME
               ${BUILD_USER}/${BUILD_NAME}:${BUILD_VERSION}
           )
@@ -114,7 +114,7 @@ test:
     - title: "Testing magento-cli container"
       shell_condition: '"$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true"'
       commands:
-        - echo "### Test Succeeded\n" 
+        - echo "### Test Succeeded\n"
       else:
         - echo "Magento-cli container failed, print logs and exiting\n"
         - docker logs $TEST_CONTAINER_MAGENTO_CLI_ID
