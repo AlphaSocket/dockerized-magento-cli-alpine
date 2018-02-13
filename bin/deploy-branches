@@ -26,7 +26,7 @@ fi
 if [ $CUR_BRANCH == $GIT_BRANCH_MASTER ] || [ $CUR_BRANCH == $GIT_BRANCH_DEVELOP ]; then
     # Rebuild dockerfile and scripts
     $(which dockerfile-build)
-    DIRTY=$( grep -R "OrderedDict" . &>/dev/null && echo "$DIRTY\n- Unparsed values in $CUR_BRANCH" || echo "$DIRTY")
+    DIRTY=$( grep -R "OrderedDict" . &>/dev/null && echo -ne "$DIRTY\n- Unparsed values in $CUR_BRANCH" || echo "$DIRTY")
     git add . 
     if [ -z "$(git status --porcelain)" ]; then 
         echo -ne "[$CUR_BRANCH] Nothing to commit \n"
@@ -76,7 +76,7 @@ do
     find . -maxdepth 1 -type d ! -name 'bin' ! -name 'imports' ! -name 'volumes' ! -name '.git' ! -name '.' -exec mv -t ./imports/ {} +
     ### 
     $(which dockerfile-build)
-    DIRTY=$( grep -R "OrderedDict" . &>/dev/null && echo "$DIRTY\n- Unparsed values in $CUR_BRANCH" || echo "$DIRTY")
+    DIRTY=$( grep -R "OrderedDict" . &>/dev/null && echo -ne "$DIRTY\n- Unparsed values in $CUR_BRANCH" || echo "$DIRTY")
     git add .
     git commit -m "$MASTER_COMMIT_MESSAGE. Rebuilt dockerfile extras and resources" --allow-empty --author "$GIT_AUTHOR"
     echo -ne "-- Updated branch $branch -- \n\n"
