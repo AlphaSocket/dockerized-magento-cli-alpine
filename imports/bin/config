@@ -3,11 +3,6 @@
 # exit if a command fails
 set -e
 
-# Setup user and group
-echo "### Setup user and group..."
-addgroup -S "$CONFIG_GROUP"
-adduser -S "$CONFIG_USER" "$CONFIG_GROUP"
-
 # Setup bin folder
 echo "### Setup bin folder..."
 mkdir -p $CONFIG_PATHS_BINARIES
