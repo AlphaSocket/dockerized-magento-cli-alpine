@@ -25,7 +25,7 @@ setup:
       # Added to run security utilities
       security: python py-pip
       # Development dependencies to compile
-      develop:
+      develop: ""
         #valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs nodejs-npm" || echo ""'
       # Dependencies installed in the image
       setup:
@@ -71,8 +71,19 @@ setup:
 config:
   # Config env
   envvars:
-    user: magento-cli
-    group: magento
+    groups:
+      main:
+        id: 1100
+        name: 'magento'
+    users:
+      main: 
+        id: 1100
+        name: 'magento-cli'
+        groups: 'magento'
+    group: 
+      valueFromParse: $CONFIG_GROUPS_MAIN_NAME
+    user:
+      valueFromParse: $CONFIG_USERS_MAIN_NAME
     paths:
       webroot: /var/www/html
       binaries:
@@ -82,11 +93,7 @@ config:
         level: 8
 
   processes:
-    - title: "Setup user and group"
-      commands:
-        - addgroup -S "$CONFIG_GROUP"
-        - adduser -S "$CONFIG_USER" "$CONFIG_GROUP"
-
+    
     - title: "Setup bin folder"
       commands:
         - mkdir -p $CONFIG_PATHS_BINARIES
