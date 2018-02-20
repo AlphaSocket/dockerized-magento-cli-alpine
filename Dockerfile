@@ -19,49 +19,55 @@ ENV \
 	GENERAL_KEYS_PRD="prd" \
 	BUILD_USER="03192859189254" \
 	BUILD_REGISTRY="docker.io" \
-	BUILD_NAME="magento-cli-alpine" \
 	BUILD_REPO="https://github.com/alphaSocket/dockerized-magento-cli-alpine" \
 	BUILD_BRANCH="latest-dev" \
 	BUILD_VERSION="latest-dev" \
 	BUILD_ENV="dev" \
-	BUILD_FROM="alpine:latest" \
 	BUILD_PORTS_MAIN="" \
 	BUILD_PORTS_ADDITIONAL="" \
+	BUILD_NAME="magento-cli-alpine" \
+	BUILD_FROM="alpine:latest" \
 	BUILD_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
-	SETUP_DEPENDENCIES_SETUP="bash htop curl gettext git mysql-client  python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
-	SETUP_DEPENDENCIES_CONFIG="" \
 	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
 	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
 	SETUP_DEPENDENCIES_DEVELOP="" \
+	SETUP_DEPENDENCIES_SETUP="bash htop curl gettext git mysql-client  python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
+	SETUP_DEPENDENCIES_CONFIG="" \
+	SETUP_PATHS_SETUP="/usr/local/bin/setup" \
+	SETUP_PATHS_CONFIG="/usr/local/bin/config" \
 	SETUP_PATHS_BINARIES="/usr/local/bin" \
 	SETUP_URLS_MAGERUN="https://files.magerun.net/n98-magerun-latest.phar" \
 	SETUP_URLS_COMPOSER="https://getcomposer.org/composer.phar" \
 	SETUP_URLS_WPCLI="https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar" \
 	SETUP_URLS_MAGECONFIGSYNC="https://github.com/punkstar/mageconfigsync/releases/download/0.4.0/mageconfigsync-0.4.0.phar" \
 	SETUP_URLS_MODMAN="https://raw.githubusercontent.com/colinmollenhour/modman/master/modman" \
-	CONFIG_USER="magento-cli" \
+	CONFIG_REDINESS_TEST="true" \
+	CONFIG_LIVENESS_TEST="true" \
+	CONFIG_GROUPS_ADDITIONAL_ID="1001" \
+	CONFIG_GROUPS_ADDITIONAL_NAME="" \
+	CONFIG_GROUPS_MAIN_ID="1100" \
+	CONFIG_GROUPS_MAIN_NAME="magento" \
+	CONFIG_USERS_ADDITIONAL_ID="1001" \
+	CONFIG_USERS_ADDITIONAL_NAME="" \
+	CONFIG_USERS_ADDITIONAL_GROUPS="" \
+	CONFIG_USERS_MAIN_ID="1100" \
+	CONFIG_USERS_MAIN_NAME="magento-cli" \
+	CONFIG_USERS_MAIN_GROUPS="magento" \
 	CONFIG_GROUP="magento" \
+	CONFIG_USER="magento-cli" \
+	CONFIG_PATHS_CONTAINER_STATUS="/tmp/container_status" \
 	CONFIG_PATHS_WEBROOT="/var/www/html" \
 	CONFIG_PATHS_BINARIES="/usr/local/bin" \
 	CONFIG_CRON_LOG_LEVEL="8"
-
-RUN if [ ! -d "/usr/local/bin/setup" ]; then \
-        mkdir -p /usr/local/bin/setup; \
-    fi \
-    && \
-    if [ ! -d "/usr/local/bin/config" ]; then \
-        mkdir -p /usr/local/bin/config; \
-    fi
-
 ADD imports/bin/docker-config /usr/local/bin/docker-config
 ADD imports/bin/docker-run /usr/local/bin/docker-run
-ADD imports/bin/setup /usr/local/bin/setup/1518487635
-ADD imports/bin/config /usr/local/bin/config/1518487635
+ADD imports/bin/setup /usr/local/bin/setup/1519170398
+ADD imports/bin/config /usr/local/bin/config/1519170398
 
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1518487635 1>/dev/stdout 2>/dev/stderr
+    /usr/local/bin/setup/1519170398 1>/dev/stdout 2>/dev/stderr
 
 
 

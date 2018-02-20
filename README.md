@@ -3,7 +3,7 @@
 Alpine container with all dependencies to setup, develop and diagnose a magento installation
 
 
-| [![Build Status](https://semaphoreci.com/api/v1/alphasocket/dockerized-magento-cli-alpine/branches/latest-dev/badge.svg)](https://semaphoreci.com/alphasocket/dockerized-magento-cli-alpine) | Layers | Size  |
+| [![Build Status](https://semaphoreci.com/api/v1/alphasocket/dockerized-magento-cli-alpine/branches/latest-dev/badge.svg)](https://semaphoreci.com/alphasocket/dockerized-magento-cli-alpine) | Size / Layers | Version |
 | ----- | ----- | ----- |
 | Dev image | [![](https://images.microbadger.com/badges/image/03192859189254/dockerized-magento-cli-alpine:latest-dev.svg)](https://microbadger.com/images/03192859189254/magento-cli-alpine:latest-dev ) | [![](https://images.microbadger.com/badges/version/03192859189254/dockerized-magento-cli-alpine:latest-dev.svg)](https://microbadger.com/images/03192859189254/magento-cli-alpine:latest-dev) |
 | Prd image | [![](https://images.microbadger.com/badges/image/alphasocket/magento-cli-alpine:latest-dev.svg)](https://microbadger.com/images/alphasocket/magento-cli-alpine:latest-dev ) | [![](https://images.microbadger.com/badges/version/alphasocket/magento-cli-alpine:latest-dev.svg)](https://microbadger.com/images/alphasocket/magento-cli-alpine:latest-dev) |
@@ -43,8 +43,21 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
 
 ## Configurable envvars
 ~~~
-CONFIG_USER="magento-cli"
+CONFIG_REDINESS_TEST="true"
+CONFIG_LIVENESS_TEST="true"
+CONFIG_GROUPS_ADDITIONAL_ID="1001"
+CONFIG_GROUPS_ADDITIONAL_NAME=""
+CONFIG_GROUPS_MAIN_ID="1100"
+CONFIG_GROUPS_MAIN_NAME="magento"
+CONFIG_USERS_ADDITIONAL_ID="1001"
+CONFIG_USERS_ADDITIONAL_NAME=""
+CONFIG_USERS_ADDITIONAL_GROUPS=""
+CONFIG_USERS_MAIN_ID="1100"
+CONFIG_USERS_MAIN_NAME="magento-cli"
+CONFIG_USERS_MAIN_GROUPS="magento"
 CONFIG_GROUP="magento"
+CONFIG_USER="magento-cli"
+CONFIG_PATHS_CONTAINER_STATUS="/tmp/container_status"
 CONFIG_PATHS_WEBROOT="/var/www/html"
 CONFIG_PATHS_BINARIES="/usr/local/bin"
 CONFIG_CRON_LOG_LEVEL="8"

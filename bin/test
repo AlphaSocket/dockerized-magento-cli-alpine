@@ -10,12 +10,12 @@ set -e
 CURL=$(which curl)
 DOCKER=$(which docker)
 
-if [ CURL = '' ]; then
+if [ "$CURL" = '' ]; then
     echo 'The package curl is required\n'
     exit 1
 fi
 
-if [ DOCKER = '' ]; then
+if [ "$DOCKER" = '' ]; then
     echo 'Docker is required\n'
     exit 1
 fi
@@ -38,7 +38,9 @@ TEST_CONTAINER_MAGENTO_CLI_STATUS=$(sleep 5 && docker inspect -f '{{.State.Runni
 echo "### Testing magento-cli container..."
 if [ "$TEST_CONTAINER_MAGENTO_CLI_STATUS" = "true" ]; then
     echo "### Test Succeeded\n";
-docker logs $TEST_CONTAINER_MAGENTO_CLI_ID;
+else 
+        echo "Magento-cli container failed, print logs and exiting\n";
+    docker logs $TEST_CONTAINER_MAGENTO_CLI_ID;
 fi
 
 
