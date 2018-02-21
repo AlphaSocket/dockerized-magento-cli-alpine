@@ -1,6 +1,6 @@
 # Alphasocket/dockerized-magento-cli-alpine
 #### magento-cli-alpine
-Alpine container with all dependencies to setup, develop and diagnose a magento installation
+Alpine container with all dependencies to manage a magento installation (crons included)
 
 
 | [![Build Status](https://semaphoreci.com/api/v1/alphasocket/dockerized-magento-cli-alpine/branches/latest/badge.svg)](https://semaphoreci.com/alphasocket/dockerized-magento-cli-alpine) | Size / Layers | Version |
@@ -14,15 +14,13 @@ Alpine container with all dependencies to setup, develop and diagnose a magento 
 
 
 ## Packages installed
-- Setup dependencies:
+- Runtime dependencies:
   + bash
   + htop
   + curl
-  + gettext
   + git
   + mysql-client
-  + python
-  + py-pip
+  + $SETUP_DEPENDENCIES_SECURITY
   + php5
   + php5-phar
   + php5-soap

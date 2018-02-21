@@ -1,14 +1,11 @@
 #!/bin/sh
-#
-
-# exit if a command fails
 set -e
 
-# Install dependencies
-echo "### Install dependencies..."
-if [ ! -z "$SETUP_DEPENDENCIES_CONFIG$SETUP_DEPENDENCIES_SETUP" ]; then
-    apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP;
-fi
+# Install all dependencies
+echo "### Install all dependencies..."
+apk add --no-cache $BUILDER_DEPENDENCIES $SETUP_DEPENDENCIES_SETUP $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_RUNTIME
+
+
 # Link php
 echo "### Link php..."
 ln -s $(which php5) /usr/bin/php
@@ -25,6 +22,7 @@ curl -o $SETUP_PATHS_BINARIES/wp-cli.phar $SETUP_URLS_WPCLI
 curl -o $SETUP_PATHS_BINARIES/mageconfigsync.phar $SETUP_URLS_MAGECONFIGSYNC
 curl -o $SETUP_PATHS_BINARIES/modman $SETUP_URLS_MODMAN
 chmod -R +x $SETUP_PATHS_BINARIES
+
 
 
 
