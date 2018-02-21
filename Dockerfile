@@ -28,11 +28,12 @@ ENV \
 	BUILD_NAME="magento-cli-alpine" \
 	BUILD_FROM="alpine:latest" \
 	BUILD_CMD="/usr/sbin/crond -f -l $CONFIG_CRON_LOG_LEVEL" \
-	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
-	SETUP_DEPENDENCIES_SECURITY="python py-pip" \
-	SETUP_DEPENDENCIES_DEVELOP="" \
-	SETUP_DEPENDENCIES_SETUP="bash htop curl gettext git mysql-client  python py-pip php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
+	SETUP_DEPENDENCIES_SETUP="" \
 	SETUP_DEPENDENCIES_CONFIG="" \
+	SETUP_DEPENDENCIES_MANAGEMENT="bash htop curl git mysql-client" \
+	SETUP_DEPENDENCIES_PHP="php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
+	SETUP_DEPENDENCIES_DEVELOP="nodejs nodejs-npm" \
+	SETUP_DEPENDENCIES_RUNTIME="bash htop curl git mysql-client nodejs nodejs-npm $SETUP_DEPENDENCIES_SECURITY php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache" \
 	SETUP_PATHS_SETUP="/usr/local/bin/setup" \
 	SETUP_PATHS_CONFIG="/usr/local/bin/config" \
 	SETUP_PATHS_BINARIES="/usr/local/bin" \
@@ -61,13 +62,15 @@ ENV \
 	CONFIG_CRON_LOG_LEVEL="8"
 ADD imports/bin/docker-config /usr/local/bin/docker-config
 ADD imports/bin/docker-run /usr/local/bin/docker-run
-ADD imports/bin/setup /usr/local/bin/setup/1519170398
-ADD imports/bin/config /usr/local/bin/config/1519170398
+ADD imports/bin/docker-rediness-test /usr/local/bin/docker-rediness-test
+ADD imports/bin/docker-liveness-test /usr/local/bin/docker-liveness-test
+ADD imports/bin/setup /usr/local/bin/setup/1519245485
+ADD imports/bin/config /usr/local/bin/config/1519245485
 
 
 RUN chmod +x -R /usr/local/bin && \
     sync && \
-    /usr/local/bin/setup/1519170398 1>/dev/stdout 2>/dev/stderr
+    /usr/local/bin/setup/1519245485 1>/dev/stdout 2>/dev/stderr
 
 
 

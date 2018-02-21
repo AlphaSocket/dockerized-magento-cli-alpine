@@ -1,7 +1,7 @@
 project:
   title: &project_title Alphasocket/dockerized-magento-cli-alpine
   codename: &project_codename magento-cli-alpine
-  description: Alpine container with all dependencies to setup, develop and diagnose a magento installation
+  description: Alpine container with all dependencies to manage a magento installation (crons included)
 
 #
 # Build process
@@ -21,17 +21,13 @@ setup:
   # Setup env
   envvars:
     dependencies:
+      management: bash htop curl git mysql-client
       php: php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache
-      # Added to run security utilities
-      security: python py-pip
-      # Development dependencies to compile
-      develop: ""
-        #valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs nodejs-npm" || echo ""'
-      # Dependencies installed in the image
-      setup:
-        valueFromParse: bash htop curl gettext git mysql-client $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
-      # Dependencies needed during runtime
-      config: ""
+      #security: python py-pip
+      develop: 
+        valueFromCommand: '[ "$BUILD_ENV" = "$GENERAL_KEYS_DEV" ] && echo "nodejs nodejs-npm" || echo ""'
+      runtime: 
+        valueFromParse:  $SETUP_DEPENDENCIES_MANAGEMENT $SETUP_DEPENDENCIES_DEVELOP $SETUP_DEPENDENCIES_SECURITY $SETUP_DEPENDENCIES_PHP
     paths:
       binaries: /usr/local/bin
     urls:
@@ -42,11 +38,6 @@ setup:
       modman: https://raw.githubusercontent.com/colinmollenhour/modman/master/modman
   # Setup Processes
   processes:
-    - title: "Install dependencies"
-      shell_condition: '! -z "$SETUP_DEPENDENCIES_CONFIG$SETUP_DEPENDENCIES_SETUP"'
-      commands:
-        - "apk add --no-cache $SETUP_DEPENDENCIES_CONFIG $SETUP_DEPENDENCIES_SETUP"
-    
     - title: "Link php"
       commands:
         - ln -s $(which php5) /usr/bin/php
