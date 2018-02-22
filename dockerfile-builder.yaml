@@ -21,7 +21,7 @@ setup:
   # Setup env
   envvars:
     dependencies:
-      management: bash htop curl git mysql-client
+      management: bash htop curl git mysql-client fcgi
       php: php5 php5-phar php5-soap php5-iconv php5-xml php5-json php5-zlib php5-gd php5-ctype php5-gd php5-pdo_mysql php5-dom php5-mcrypt php5-curl php5-openssl php5-opcache
       #security: python py-pip
       develop: 
