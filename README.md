@@ -20,6 +20,7 @@ Alpine container with all dependencies to manage a magento installation (crons i
   + curl
   + git
   + mysql-client
+  + fcgi
   + nodejs
   + nodejs-npm
   + $SETUP_DEPENDENCIES_SECURITY
